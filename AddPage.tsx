@@ -13,7 +13,7 @@ const getLastId = async (): Promise<number | null> => {
         if (result.length === 0) return null;
 
         const lastId = Math.max(...result.map(disco => disco.id));
-        return lastId;
+        return lastId + 1;
     } catch (error) {
         console.error("Erro ao obter discos:", error);
         return null;
