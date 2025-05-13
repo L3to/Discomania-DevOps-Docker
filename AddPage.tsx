@@ -27,6 +27,7 @@ const AddPage = () => {
     const [nome, setNome] = useState('');
     const [autor, setAutor] = useState('');
     const [ano, setAno] = useState('');
+    const [genero, setGenero] = useState('');
     const id = getLastId();
 
     const addDisco = async () => {
@@ -40,6 +41,7 @@ const AddPage = () => {
                 nome,
                 autor,
                 ano: Number(ano),
+                genero
             }),
         });
 
@@ -70,6 +72,8 @@ const AddPage = () => {
                 }}
                 keyboardType="numeric"
             />
+            <Text>Gênero:</Text>
+            <TextInput style={styles.input} value={genero} onChangeText={setGenero} />
 
             <Button
                 title="Salvar Alterações"
