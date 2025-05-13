@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { DiscoType, RootStackParamList } from './types';
 
-
 const getLastId = async (): Promise<number | null> => {
     try {
         const response = await fetch("http://flask-api:5000/get-discos");
@@ -21,14 +20,18 @@ const getLastId = async (): Promise<number | null> => {
 };
 
 const AddPage = () => {
-
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
     const [nome, setNome] = useState('');
     const [autor, setAutor] = useState('');
     const [ano, setAno] = useState('');
     const [genero, setGenero] = useState('');
-    const id = getLastId();
+    const [id, setId] = useState<number | null>(null);
+
+    // Fetch the last ID when the component mounts
+    useState(() => {
+        getLastId().then(setId);
+    });
 
     const addDisco = async () => {
         const response = await fetch(`http://flask-api:5000/add-disco/`, {
@@ -48,19 +51,23 @@ const AddPage = () => {
         return response.ok;
     };
 
-    function gatherAllDiscos() {
-        throw new Error('Function not implemented.');
-    }
-
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Página de adição</Text>
 
             <Text>Nome:</Text>
-            <TextInput style={styles.input} value={nome} onChangeText={setNome} />
+            <TextInput
+                style={styles.input}
+                value={nome}
+                onChangeText={setNome}
+            />
 
             <Text>Autor:</Text>
-            <TextInput style={styles.input} value={autor} onChangeText={setAutor} />
+            <TextInput
+                style={styles.input}
+                value={autor}
+                onChangeText={setAutor}
+            />
 
             <Text>Ano:</Text>
             <TextInput
@@ -72,16 +79,20 @@ const AddPage = () => {
                 }}
                 keyboardType="numeric"
             />
+
             <Text>Gênero:</Text>
-            <TextInput style={styles.input} value={genero} onChangeText={setGenero} />
+            <TextInput
+                style={styles.input}
+                value={genero}
+                onChangeText={setGenero}
+            />
 
             <Button
                 title="Salvar Alterações"
                 onPress={async () => {
                     const sucesso = await addDisco();
                     if (sucesso) {
-                        gatherAllDiscos();
-                        navigation.navigate('List');
+                        navigation.navigate('List'); // Volta para a lista após adicionar
                     } else {
                         Alert.alert('Erro', 'Falha ao registrar disco');
                     }
@@ -90,7 +101,6 @@ const AddPage = () => {
         </View>
     );
 };
-
 
 export default AddPage;
 

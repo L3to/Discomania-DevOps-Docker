@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { RootStackParamList } from './types';
 
-
 type UpdateRouteProp = RouteProp<RootStackParamList, 'Update'>;
 
 const UpdatePage = ({ route }: { route: UpdateRouteProp }) => {
@@ -14,6 +13,7 @@ const UpdatePage = ({ route }: { route: UpdateRouteProp }) => {
     const [nome, setNome] = useState(disco.nome);
     const [autor, setAutor] = useState(disco.autor);
     const [ano, setAno] = useState(disco.ano.toString());
+    const [genero, setGenero] = useState(disco.genero);
 
     const updateDisco = async () => {
         const response = await fetch(`http://flask-api:5000/update-disco/${disco.id}`, {
@@ -25,42 +25,38 @@ const UpdatePage = ({ route }: { route: UpdateRouteProp }) => {
                 nome,
                 autor,
                 ano: Number(ano),
+                genero,
             }),
         });
         return response.ok;
     };
 
-
-
-    function gatherAllDiscos() {
-        throw new Error('Function not implemented.');
-    }
-
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Página de atualização</Text>
+            <Text style={styles.title}>Atualizar Disco</Text>
 
             <Text>Nome:</Text>
-            <TextInput style={styles.input} value={nome} onChangeText={setNome} placeholder={disco.nome} />
+            <TextInput style={styles.input} value={nome} onChangeText={setNome} />
 
             <Text>Autor:</Text>
-            <TextInput style={styles.input} value={autor} onChangeText={setAutor} placeholder={disco.autor} />
+            <TextInput style={styles.input} value={autor} onChangeText={setAutor} />
 
             <Text>Ano:</Text>
             <TextInput
                 style={styles.input}
                 value={ano}
-                onChangeText={setAno}
+                onChangeText={(text) => setAno(text.replace(/[^0-9]/g, ''))}
                 keyboardType="numeric"
-                placeholder={String(disco.ano)}
             />
+
+            <Text>Gênero:</Text>
+            <TextInput style={styles.input} value={genero} onChangeText={setGenero} />
 
             <Button
                 title="Salvar Alterações"
                 onPress={async () => {
                     const sucesso = await updateDisco();
                     if (sucesso) {
-                        gatherAllDiscos();
                         navigation.navigate('List');
                     } else {
                         Alert.alert('Erro', 'Falha ao atualizar disco');
@@ -70,7 +66,6 @@ const UpdatePage = ({ route }: { route: UpdateRouteProp }) => {
         </View>
     );
 };
-
 
 export default UpdatePage;
 
