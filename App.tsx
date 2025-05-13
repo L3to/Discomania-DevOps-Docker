@@ -19,9 +19,11 @@ const DiscoItem = ({ item, onDeleteDisco }: DiscoProps) => {
 
   return (
     <View style={styles.item}>
-      <Text style={styles.title}>{item.nome}</Text>
-      <Text>{item.autor}</Text>
-      <Text>{item.ano}</Text>
+      <Text style={styles.title}>Nome: {item.nome}</Text>
+      <Text>Autor: {item.autor}</Text>
+      <Text>Ano: {item.ano}</Text>
+      <Text>Gênero: {item.genero}</Text>
+      <Text>ID: {item.id}</Text> {/* Exibindo o ID */}
       <Button title="Atualizar" onPress={() => navigation.navigate('Update', { disco: item })} />
       <Button title="Deletar" onPress={() => onDeleteDisco(item.id)} />
     </View>
@@ -69,7 +71,6 @@ const DiscoList = () => {
     </View>
   );
 };
-
 
 export default function App() {
   return (
