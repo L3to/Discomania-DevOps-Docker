@@ -16,7 +16,7 @@ const UpdatePage = ({ route }: { route: UpdateRouteProp }) => {
     const [genero, setGenero] = useState(disco.genero);
 
     const updateDisco = async () => {
-        const response = await fetch(`http://flask-api:5000/update-disco/${disco.id}`, {
+        const response = await fetch(`http://localhost:5000/discos/${disco.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -63,6 +63,9 @@ const UpdatePage = ({ route }: { route: UpdateRouteProp }) => {
                     }
                 }}
             />
+             <Button
+                title="Voltar"
+                onPress={() => navigation.navigate('List')}/>
         </View>
     );
 };

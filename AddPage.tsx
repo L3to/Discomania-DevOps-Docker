@@ -6,7 +6,7 @@ import { DiscoType, RootStackParamList } from './types';
 
 const getLastId = async (): Promise<number | null> => {
     try {
-        const response = await fetch("http://flask-api:5000/get-discos");
+        const response = await fetch("http://localhost:5000/discos");
         const result: DiscoType[] = await response.json();
 
         if (result.length === 0) return null;
@@ -28,13 +28,12 @@ const AddPage = () => {
     const [genero, setGenero] = useState('');
     const [id, setId] = useState<number | null>(null);
 
-    // Fetch the last ID when the component mounts
     useState(() => {
         getLastId().then(setId);
     });
 
     const addDisco = async () => {
-        const response = await fetch(`http://flask-api:5000/add-disco/`, {
+        const response = await fetch(`http://localhost:5000/discos`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -92,12 +91,15 @@ const AddPage = () => {
                 onPress={async () => {
                     const sucesso = await addDisco();
                     if (sucesso) {
-                        navigation.navigate('List'); // Volta para a lista após adicionar
+                        navigation.navigate('List');
                     } else {
                         Alert.alert('Erro', 'Falha ao registrar disco');
                     }
                 }}
             />
+            <Button
+                title="Voltar"
+                onPress={() => navigation.navigate('List')}/>
         </View>
     );
 };

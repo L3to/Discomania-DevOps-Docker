@@ -36,7 +36,7 @@ const DiscoList = () => {
 
   const gatherAllDiscos = async () => {
     try {
-      const response = await fetch("http://flask-api:5000/get-discos");
+      const response = await fetch("http://localhost:5000/discos");
       const result: DiscoType[] = await response.json();
       setDiscos(result);
     } catch (error) {
@@ -45,7 +45,7 @@ const DiscoList = () => {
   };
 
   const deleteDisco = async (id: number) => {
-    const response = await fetch(`http://flask-api:5000/delete-disco/${id}`, {
+    const response = await fetch(`http://localhost:5000/discos/${id}`, {
       method: 'DELETE',
     });
 
